@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <HorizontalScrollView
+        android:id="@+id/effects_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:id="@+id/effects"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/effectNormal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgBrightness"
+                    app:shapeAppearanceOverlay="@style/roundedCorners"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:id="@+id/normalText"
+                    android:text="Original"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/font_avant"
+                    android:textSize="16sp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:weightSum="1"
+                android:id="@+id/effectStruck"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgContrast"
+                    app:shapeAppearanceOverlay="@style/roundedCorners"
+                    android:scaleType="fitCenter"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/struckText"
+                    android:textColor="#9a9a9a"
+                    android:fontFamily="@font/font_avant"
+                    android:textSize="16sp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Struck"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:weightSum="1"
+                android:id="@+id/effectClarendon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgSaturation"
+                    app:shapeAppearanceOverlay="@style/roundedCorners"
+                    android:scaleType="fitCenter"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#9a9a9a"
+                    android:fontFamily="@font/font_avant"
+                    android:textSize="16sp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:id="@+id/clarendonText"
+                    android:text="Clarendon"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:weightSum="1"
+                android:id="@+id/effectOldMan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgEnhance"
+                    app:shapeAppearanceOverlay="@style/roundedCorners"
+                    android:scaleType="fitCenter"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"  />
+
+                <TextView
+                    android:id="@+id/oldManText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#9a9a9a"
+                    android:fontFamily="@font/font_avant"
+                    android:textSize="16sp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="OldMan"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:weightSum="1"
+                android:id="@+id/effectMars"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgToGray"
+                    app:shapeAppearanceOverlay="@style/roundedCorners"
+                    android:scaleType="fitCenter"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"  />
+
+                <TextView
+                    android:id="@+id/marsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#9a9a9a"
+                    android:fontFamily="@font/font_avant"
+                    android:textSize="16sp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Mars"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:weightSum="1"
+                android:id="@+id/effectRise"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgInvert"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:shapeAppearanceOverlay="@style/roundedCorners"
+                    android:scaleType="fitCenter"
+                    android:layout_weight="1"  />
+
+                <TextView
+                    android:id="@+id/riseText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#9a9a9a"
+                    android:fontFamily="@font/font_avant"
+                    android:textSize="16sp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Rise"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:weightSum="1"
+                android:id="@+id/effectApril"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgChangeHue"
+                    android:layout_width="match_parent"
+                    app:shapeAppearanceOverlay="@style/roundedCorners"
+                    android:scaleType="fitCenter"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"  />
+
+                <TextView
+                    android:id="@+id/aprilText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#9a9a9a"
+                    android:fontFamily="@font/font_avant"
+                    android:textSize="16sp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="April"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:weightSum="1"
+                android:id="@+id/effectAmazon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgKeepHue"
+                    app:shapeAppearanceOverlay="@style/roundedCorners"
+                    android:scaleType="fitCenter"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/amazontext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#9a9a9a"
+                    android:fontFamily="@font/font_avant"
+                    android:textSize="16sp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Amazon"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/effectBlur"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:minWidth="170dp"-->
+<!--                android:padding="10dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imgBlur"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_centerHorizontal="true" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignBottom="@id/imgBlur"-->
+
+<!--                    android:background="?attr/colorPrimary"-->
+<!--                    android:drawableTop="@drawable/ic_blur_on_black_24dp"-->
+<!--                    android:text="BLUR"-->
+<!--                    android:textAlignment="center" />-->
+<!--            </RelativeLayout>-->
+
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/effectSharpen"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:minWidth="170dp"-->
+<!--                android:padding="10dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imgSharpen"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_centerHorizontal="true" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignBottom="@id/imgSharpen"-->
+
+<!--                    android:background="?attr/colorPrimary"-->
+<!--                    android:drawableTop="@drawable/ic_details_black_24dp"-->
+<!--                    android:text="SHARPEN"-->
+<!--                    android:textAlignment="center" />-->
+<!--            </RelativeLayout>-->
+
+
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/effectNeon"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:minWidth="170dp"-->
+<!--                android:padding="10dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imgNeon"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_centerHorizontal="true" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignBottom="@id/imgNeon"-->
+
+<!--                    android:background="?attr/colorPrimary"-->
+<!--                    android:drawableTop="@drawable/ic_wb_iridescent_black_24dp"-->
+<!--                    android:text="NEON"-->
+<!--                    android:textAlignment="center" />-->
+<!--            </RelativeLayout>-->
+
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/effectClahe"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:minWidth="170dp"-->
+<!--                android:padding="10dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imgClahe"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_centerHorizontal="true" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignBottom="@id/imgClahe"-->
+
+<!--                    android:background="?attr/colorPrimary"-->
+<!--                    android:drawableTop="@drawable/ic_grid_on_black_24dp"-->
+<!--                    android:text="CLAHE"-->
+<!--                    android:textAlignment="center" />-->
+<!--            </RelativeLayout>-->
+
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</RelativeLayout>
