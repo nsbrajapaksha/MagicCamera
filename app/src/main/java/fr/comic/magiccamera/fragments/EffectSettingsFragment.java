@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -19,6 +20,17 @@ import com.isseiaoki.simplecropview.CropImageView;
 import com.zomato.photofilters.FilterPack;
 import com.zomato.photofilters.imageprocessors.Filter;
 
+import org.opencv.android.Utils;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.core.TermCriteria;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.photo.Photo;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
@@ -129,49 +141,49 @@ public class EffectSettingsFragment extends Fragment {
                     break;
                 case STRUCK:
                     image.discard();
-                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, (Bitmap target) -> filters.get(0).processFilter(target));
+                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, this::cartoonImage7);
                     mainActivity.setCurrentTask(new ApplyEffectTask(mainActivity, currentEffect, image).execute());
                     mainActivity.setComicType(STRUCK);
                     image.quickSave();
                     break;
                 case CLARENDON:
                     image.discard();
-                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, (Bitmap target) -> filters.get(1).processFilter(target));
+                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, this::cartoonImage6);
                     mainActivity.setCurrentTask(new ApplyEffectTask(mainActivity, currentEffect, image).execute());
                     mainActivity.setComicType(CLARENDON);
                     image.quickSave();
                     break;
                 case OLDMAN:
                     image.discard();
-                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, (Bitmap target) -> filters.get(2).processFilter(target));
+                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, this::cartoonImage5);
                     mainActivity.setCurrentTask(new ApplyEffectTask(mainActivity, currentEffect, image).execute());
                     mainActivity.setComicType(OLDMAN);
                     image.quickSave();
                     break;
                 case MARS:
                     image.discard();
-                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, (Bitmap target) -> filters.get(3).processFilter(target));
+                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, this::cartoonImage4);
                     mainActivity.setCurrentTask(new ApplyEffectTask(mainActivity, currentEffect, image).execute());
                     mainActivity.setComicType(MARS);
                     image.quickSave();
                     break;
                 case RISE:
                     image.discard();
-                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, (Bitmap target) -> filters.get(4).processFilter(target));
+                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, this::cartoonImage3);
                     mainActivity.setCurrentTask(new ApplyEffectTask(mainActivity, currentEffect, image).execute());
                     mainActivity.setComicType(RISE);
                     image.quickSave();
                     break;
                 case APRIL:
                     image.discard();
-                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, (Bitmap target) -> filters.get(5).processFilter(target));
+                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, this::cartoonImage2);
                     mainActivity.setCurrentTask(new ApplyEffectTask(mainActivity, currentEffect, image).execute());
                     mainActivity.setComicType(APRIL);
                     image.quickSave();
                     break;
                 case AMAZON:
                     image.discard();
-                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, (Bitmap target) -> filters.get(6).processFilter(target));
+                    currentEffect = new ImageEffect(effect.getName(), new String[]{}, this::cartoonImage1);
                     mainActivity.setCurrentTask(new ApplyEffectTask(mainActivity, currentEffect, image).execute());
                     mainActivity.setComicType(AMAZON);
                     image.quickSave();
@@ -199,6 +211,253 @@ public class EffectSettingsFragment extends Fragment {
         }
     }
 
+    public Bitmap cartoonImage1(Bitmap img) {
+        Mat procMat = new Mat();
+        Bitmap bmp32 = img.copy(Bitmap.Config.ARGB_8888, true);
+        Utils.bitmapToMat(bmp32, procMat);
+
+        Mat orig = new Mat();
+        Mat gray = new Mat();
+        Mat edges = new Mat();
+        Mat color = new Mat();
+        Mat cartoon = new Mat();
+
+        Imgproc.cvtColor(procMat, orig, Imgproc.COLOR_BGRA2BGR);
+        Imgproc.cvtColor(procMat, gray, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.medianBlur(gray, gray, 5);
+
+        Mat kernel_sharpening = new Mat(3, 3, CvType.CV_8SC1);
+        kernel_sharpening.put(0, 0, -1, -1, -1, -1, 9, -1, -1, -1, -1);
+
+        Imgproc.filter2D(gray, gray, gray.depth(), kernel_sharpening);
+
+        Imgproc.medianBlur(gray, gray, 9);
+        Size s = new Size(7, 7);
+        Imgproc.GaussianBlur(gray, gray, s, 0);
+
+        Imgproc.adaptiveThreshold(gray, edges, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 25, 6);
+        Imgproc.bilateralFilter(orig, color, 1, 700, 700);
+        Core.bitwise_and(color, color, cartoon, edges);
+
+        orig.release();
+        gray.release();
+        edges.release();
+        color.release();
+        kernel_sharpening.release();
+
+        Utils.matToBitmap(cartoon, bmp32);
+        image.setBitmap(bmp32);
+        ImageView imgView = mainActivity.findViewById(R.id.photoViewCrop);
+        imgView.setImageBitmap(bmp32);
+
+        return bmp32;
+    }
+
+    public Bitmap cartoonImage3(Bitmap img) {
+        Mat procMat = new Mat();
+        Bitmap bmp32 = img.copy(Bitmap.Config.ARGB_8888, true);
+        Utils.bitmapToMat(bmp32, procMat);
+
+        Mat orig = new Mat();
+        Mat gray = new Mat();
+        Mat edges = new Mat();
+        Mat color = new Mat();
+
+        Imgproc.cvtColor(procMat, orig, Imgproc.COLOR_BGRA2BGR);
+        Imgproc.cvtColor(procMat, gray, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.medianBlur(gray, gray, 5);
+
+        Mat kernel_sharpening = new Mat(3, 3, CvType.CV_8SC1);
+        kernel_sharpening.put(0, 0, -1, -1, -1, -1, 9, -1, -1, -1, -1);
+
+        Imgproc.filter2D(gray, gray, gray.depth(), kernel_sharpening);
+
+        Imgproc.medianBlur(gray, gray, 9);
+        Size s = new Size(7, 7);
+        Imgproc.GaussianBlur(gray, gray, s, 0);
+
+        Imgproc.adaptiveThreshold(gray, edges, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 25, 6);
+        reduceColorsGray(edges, 5);
+        Utils.matToBitmap(edges, bmp32);
+
+        orig.release();
+        gray.release();
+        edges.release();
+        color.release();
+        kernel_sharpening.release();
+        image.setBitmap(bmp32);
+        ImageView imgView = mainActivity.findViewById(R.id.photoViewCrop);
+        imgView.setImageBitmap(bmp32);
+
+        return bmp32;
+    }
+
+    public Bitmap cartoonImage4(Bitmap img) {
+        Mat procMat = new Mat();
+        Bitmap bmp32 = img.copy(Bitmap.Config.ARGB_8888, true);
+        Utils.bitmapToMat(bmp32, procMat);
+
+        Mat orig = new Mat();
+        Mat gray = new Mat();
+        Mat edges = new Mat();
+        Mat color = new Mat();
+        Mat cartoon = new Mat();
+
+        Imgproc.cvtColor(procMat, orig, Imgproc.COLOR_BGRA2BGR);
+        Imgproc.cvtColor(procMat, gray, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.medianBlur(gray, gray, 5);
+
+        Mat kernel_sharpening = new Mat(3, 3, CvType.CV_8SC1);
+        kernel_sharpening.put(0, 0, -1, -1, -1, -1, 9, -1, -1, -1, -1);
+
+        Imgproc.filter2D(gray, gray, gray.depth(), kernel_sharpening);
+
+        Imgproc.medianBlur(gray, gray, 9);
+        Size s = new Size(7, 7);
+        Imgproc.GaussianBlur(gray, gray, s, 0);
+
+        Imgproc.adaptiveThreshold(gray, edges, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 25, 6);
+        Imgproc.bilateralFilter(orig, color, 1, 700, 700);
+        Core.bitwise_and(gray, gray, cartoon, edges);
+
+        orig.release();
+        gray.release();
+        edges.release();
+        color.release();
+        kernel_sharpening.release();
+
+        Utils.matToBitmap(cartoon, img);
+        image.setBitmap(img);
+        ImageView imgView = mainActivity.findViewById(R.id.photoViewCrop);
+        imgView.setImageBitmap(img);
+
+        return img;
+    }
+
+    public Bitmap cartoonImage5(Bitmap img) {
+        Mat procMat = new Mat();
+        Bitmap bmp32 = img.copy(Bitmap.Config.ARGB_8888, true);
+        Utils.bitmapToMat(bmp32, procMat);
+
+        Mat orig = new Mat();
+        Mat gray = new Mat();
+        Mat gaussed = new Mat();
+        Mat inverted = new Mat();
+//        Mat multiplied = new Mat();
+        Mat out = new Mat();
+
+        Imgproc.cvtColor(procMat, orig, Imgproc.COLOR_BGRA2BGR);
+        Imgproc.cvtColor(procMat, gray, Imgproc.COLOR_BGR2GRAY);
+        Mat invertcolormatrix = new Mat(gray.rows(), gray.cols(), gray.type(), new Scalar(255, 255, 255));
+        Core.subtract(invertcolormatrix, gray, inverted);
+
+        //Applying GaussianBlur on the Image
+        Imgproc.GaussianBlur(inverted, gaussed, new Size(25, 25), 0, 0);
+//        Core.multiply(invertcolormatrix, gaussed, multiplied);
+        Core.divide(gaussed, inverted, out, 255);
+
+
+        Utils.matToBitmap(out, bmp32);
+        image.setBitmap(bmp32);
+        ImageView imgView = mainActivity.findViewById(R.id.photoViewCrop);
+        imgView.setImageBitmap(bmp32);
+
+        return bmp32;
+    }
+
+    public Bitmap cartoonImage6(Bitmap img) {
+        Mat procMat = new Mat();
+        Mat orig = new Mat();
+        Mat edges = new Mat();
+        Mat gray = new Mat();
+        Mat color = new Mat();
+        Mat cartoon = new Mat();
+        Bitmap bmp32 = img.copy(Bitmap.Config.ARGB_8888, true);
+        Utils.bitmapToMat(bmp32, procMat);
+
+        Imgproc.cvtColor(procMat, orig, Imgproc.COLOR_BGRA2BGR);
+        Imgproc.cvtColor(procMat, gray, Imgproc.COLOR_BGRA2GRAY);
+        Imgproc.medianBlur(gray, gray, 5);
+        Imgproc.adaptiveThreshold(gray, edges, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 9, 5);
+        Imgproc.bilateralFilter(orig, color, 9, 200, 200);
+        Core.bitwise_and(color, color, cartoon, edges);
+
+        Utils.matToBitmap(cartoon, bmp32);
+        image.setBitmap(bmp32);
+        ImageView imgView = mainActivity.findViewById(R.id.photoViewCrop);
+        imgView.setImageBitmap(bmp32);
+
+        return bmp32;
+    }
+
+    public Bitmap cartoonImage7(Bitmap img) {
+        Mat procMat = new Mat();
+        Bitmap bmp32 = img.copy(Bitmap.Config.ARGB_8888, true);
+        Utils.bitmapToMat(bmp32, procMat);
+
+        Mat orig = new Mat();
+        Mat gray = new Mat();
+
+        Imgproc.cvtColor(procMat, orig, Imgproc.COLOR_BGRA2RGB);
+        Imgproc.cvtColor(orig, gray, Imgproc.COLOR_BGRA2GRAY);
+        Mat result = reduceColorsGray(gray, 5);
+
+        Utils.matToBitmap(result, bmp32);
+        image.setBitmap(bmp32);
+        ImageView imgView = mainActivity.findViewById(R.id.photoViewCrop);
+        imgView.setImageBitmap(bmp32);
+
+        return bmp32;
+    }
+
+    public Bitmap cartoonImage2(Bitmap img) {
+        Mat procMat = new Mat();
+        Bitmap bmp32 = img.copy(Bitmap.Config.ARGB_8888, true);
+        Utils.bitmapToMat(bmp32, procMat);
+
+        Mat orig = new Mat();
+        Mat out1 = new Mat();
+        Imgproc.cvtColor(procMat, orig, Imgproc.COLOR_BGRA2RGB);
+        Photo.stylization(orig, out1, 60, 0.07f);
+
+        Utils.matToBitmap(out1, bmp32);
+        image.setBitmap(bmp32);
+        ImageView imgView = mainActivity.findViewById(R.id.photoViewCrop);
+        imgView.setImageBitmap(bmp32);
+
+        return bmp32;
+    }
+
+    private Mat createLUT(int numColors) {
+        // When numColors=1 the LUT will only have 1 color which is black.
+        if (numColors < 0 || numColors > 256) {
+            System.out.println("Invalid Number of Colors. It must be between 0 and 256 inclusive.");
+            return null;
+        }
+
+        Mat lookupTable = Mat.zeros(new Size(1, 256), CvType.CV_8UC1);
+
+        int startIdx = 0;
+        for (int x = 0; x < 256; x += 256.0 / numColors) {
+            lookupTable.put(x, 0, x);
+
+            for (int y = startIdx; y < x; y++) {
+                if (lookupTable.get(y, 0)[0] == 0) {
+                    lookupTable.put(y, 0, lookupTable.get(x, 0));
+                }
+            }
+            startIdx = x;
+        }
+        return lookupTable;
+    }
+
+    private Mat reduceColorsGray(Mat img, int numColors) {
+        Mat LUT = createLUT(numColors);
+
+        Imgproc.applyColorMap(img, img, LUT);
+
+        return img;
+    }
 
     /**
      * Generate a basic layout with the name of the effect and a seekbar.
@@ -210,6 +469,7 @@ public class EffectSettingsFragment extends Fragment {
 //        TextView tv = new TextView(super.getContext());
 //        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 //        tv.setText(effect.getName());
+        CropImageView cropImageView = mainActivity.findViewById(R.id.photoViewCrop);
         if (effect == Effects.BRIGHTNESS) {
             SeekBar sbBrightness = brightnessLayout.findViewById(R.id.brightnessSeekBar);
             sbBrightness.setProgress(mainActivity.getBrightnessValue());
@@ -219,9 +479,12 @@ public class EffectSettingsFragment extends Fragment {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {
                     image.discard();
-                    currentEffect = new ImageEffect(effect.getName(), new String[]{String.valueOf(progress)}, (Bitmap target) ->
-                            Retouching.setBrightness(target, progress, mainActivity));
-                    image.applyEffect(currentEffect);
+//                    currentEffect = new ImageEffect(effect.getName(), new String[]{String.valueOf(progress)}, (Bitmap target) ->
+//                            Retouching.setBrightness(target, progress, mainActivity));
+//                    image.applyEffect(currentEffect);
+                    Bitmap bitmap = Retouching.setBrightnessBmp(image.getBitmap(), progress, mainActivity);
+                    image.setBitmap(bitmap);
+                    cropImageView.setImageBitmap(bitmap);
                 }
 
                 @Override
@@ -243,9 +506,13 @@ public class EffectSettingsFragment extends Fragment {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {
                     image.discard();
-                    currentEffect = new ImageEffect(effect.getName(), new String[]{String.valueOf(progress)}, (Bitmap target) ->
-                            Retouching.setSaturation(target, progress, mainActivity));
-                    image.applyEffect(currentEffect);
+//                    currentEffect = new ImageEffect(effect.getName(), new String[]{String.valueOf(progress)}, (Bitmap target) ->
+//                            Retouching.setSaturation(target, progress, mainActivity));
+//                    image.applyEffect(currentEffect);
+
+                    Bitmap bitmap = Retouching.setSaturationBmp(image.getBitmap(), progress, mainActivity);
+                    image.setBitmap(bitmap);
+                    cropImageView.setImageBitmap(bitmap);
                 }
 
                 @Override
@@ -261,6 +528,16 @@ public class EffectSettingsFragment extends Fragment {
         } else if (effect == Effects.CROP) {
             listeners(cropListLayout);
         }
+    }
+
+    private Bitmap increaseBrightness(Bitmap bitmap, int value){
+
+        Mat src = new Mat(bitmap.getHeight(),bitmap.getWidth(), CvType.CV_8UC1);
+        Utils.bitmapToMat(bitmap,src);
+        src.convertTo(src,-1,1,value);
+        Bitmap result = Bitmap.createBitmap(src.cols(),src.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(src,result);
+        return result;
     }
 
     private void listeners(View view) {

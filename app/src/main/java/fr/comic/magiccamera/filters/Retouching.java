@@ -43,6 +43,27 @@ public class Retouching {
         rs.destroy();
     }
 
+    public static Bitmap setBrightnessBmp(Bitmap bmp, int factor, Context context){
+        int newFactor = factor - 127;
+        RenderScript rs = RenderScript.create(context);
+        Allocation input = Allocation.createFromBitmap(rs, bmp); //Bitmap input
+        Allocation output = Allocation.createTyped(rs, input.getType()); //Bitmap output
+
+        ScriptC_brightness sBrightness = new ScriptC_brightness(rs);
+
+        sBrightness.set_factor(newFactor);
+        sBrightness.forEach_setBrightness(input, output);
+
+        output.copyTo(bmp);
+
+        input.destroy();
+        output.destroy();
+        sBrightness.destroy();
+        rs.destroy();
+
+        return bmp;
+    }
+
     /**
      * Sets the saturation of an image by multiplying a factor to the existing saturation.
      * @param bmp the bitmap to modify
@@ -68,6 +89,29 @@ public class Retouching {
         input.destroy();
         output.destroy();
         rs.destroy();
+    }
+
+    public static Bitmap setSaturationBmp(Bitmap bmp, int factor, Context context){
+
+        //We normalize the factor between -1 and 1.
+        float factorRS = (factor-127)/127f;
+        RenderScript rs = RenderScript.create(context);
+        Allocation input = Allocation.createFromBitmap(rs, bmp); //Bitmap input
+        Allocation output = Allocation.createTyped(rs, input.getType()); //Bitmap output
+
+        ScriptC_saturation sBrightness = new ScriptC_saturation(rs);
+
+        sBrightness.set_factor(factorRS);
+        sBrightness.forEach_setSaturation(input, output);
+
+        output.copyTo(bmp);
+
+        sBrightness.destroy();
+        input.destroy();
+        output.destroy();
+        rs.destroy();
+
+        return bmp;
     }
 
     /**

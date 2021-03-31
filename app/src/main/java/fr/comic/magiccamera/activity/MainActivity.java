@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,11 @@ import com.isseiaoki.simplecropview.callback.CropCallback;
 import com.zomato.photofilters.FilterPack;
 import com.zomato.photofilters.imageprocessors.Filter;
 import com.zomato.photofilters.utils.ThumbnailItem;
+
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Mat;
 
 import java.io.File;
 import java.util.List;
@@ -84,13 +90,37 @@ public class MainActivity extends AppCompatActivity {
     static {
         System.loadLibrary("NativeImageProcessor");
     }
-
     private String function = "comic";
+    private static final String TAG = "OpenCV:MainActivity";
+
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS:
+                {
+                    Log.i("OpenCV", "OpenCV loaded successfully");
+                } break;
+                default:
+                {
+                    super.onManagerConnected(status);
+                } break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (!OpenCVLoader.initDebug()) {
+            Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, this, mLoaderCallback);
+        } else {
+            Log.d("OpenCV", "OpenCV library found inside package. Using it!");
+            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
 
         iv = findViewById(R.id.photoView);
         ivCrop = findViewById(R.id.photoViewCrop);
@@ -112,32 +142,102 @@ public class MainActivity extends AppCompatActivity {
         cropText = findViewById(R.id.cropText);
         brightnessText = findViewById(R.id.brightnessText);
         saturationText = findViewById(R.id.saturationText);
+        hideCropFrame(true);
 
         comicText.setOnClickListener(v -> {
             if (comicText.getCurrentTextColor() != Color.WHITE && !imageLoading) {
-                selectFromTab(0);
-                inflateEffectSettings(COMIC);
-//                deflateEffectSettings();
+                Image image;
+                if (getImage().getHeight() > getImage().getWidth()) {
+                    Bitmap bitmap = getImage().getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+                    getImage().setBitmap(Utils.rotateBitmap(bitmap, 270));
+                    image = new Image(Utils.rotateBitmap(bitmap, 270));
+                } else {
+                    Bitmap bitmap = getImage().getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+                    image = new Image(bitmap);
+                }
+                ivCrop.crop(image.getUri()).execute(new CropCallback() {
+                    @Override
+                    public void onSuccess(Bitmap cropped) {
+                        Bitmap bmp = cropped.copy(Bitmap.Config.ARGB_8888,true);
+                        hideCropFrame(true);
+                        selectFromTab(0);
+                        getImagePack().setMainImage(bmp);
+                        ivCrop.setImageBitmap(cropped);
+                        inflateEffectSettings(COMIC);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
             }
         });
         cropText.setOnClickListener(v -> {
             if (cropText.getCurrentTextColor() != Color.WHITE && !imageLoading) {
+                hideCropFrame(false);
                 selectFromTab(1);
                 inflateEffectSettings(CROP);
             }
         });
         brightnessText.setOnClickListener(v -> {
             if (brightnessText.getCurrentTextColor() != Color.WHITE && !imageLoading) {
-                selectFromTab(2);
-                getImage().quickSave();
-                inflateEffectSettings(BRIGHTNESS);
+                Image image;
+                if (getImage().getHeight() > getImage().getWidth()) {
+                    Bitmap bitmap = getImage().getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+                    getImage().setBitmap(Utils.rotateBitmap(bitmap, 270));
+                    image = new Image(Utils.rotateBitmap(bitmap, 270));
+                } else {
+                    Bitmap bitmap = getImage().getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+                    image = new Image(bitmap);
+                }
+                ivCrop.crop(image.getUri()).execute(new CropCallback() {
+                    @Override
+                    public void onSuccess(Bitmap cropped) {
+                        Bitmap bmp = cropped.copy(Bitmap.Config.ARGB_8888,true);
+                        hideCropFrame(true);
+                        selectFromTab(2);
+                        getImagePack().setMainImage(bmp);
+                        ivCrop.setImageBitmap(cropped);
+                        getImage().quickSave();
+                        inflateEffectSettings(BRIGHTNESS);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
             }
         });
         saturationText.setOnClickListener(v -> {
             if (saturationText.getCurrentTextColor() != Color.WHITE && !imageLoading) {
-                selectFromTab(3);
-                getImage().quickSave();
-                inflateEffectSettings(SATURATION);
+                Image image;
+                if (getImage().getHeight() > getImage().getWidth()) {
+                    Bitmap bitmap = getImage().getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+                    getImage().setBitmap(Utils.rotateBitmap(bitmap, 270));
+                    image = new Image(Utils.rotateBitmap(bitmap, 270));
+                } else {
+                    Bitmap bitmap = getImage().getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+                    image = new Image(bitmap);
+                }
+                ivCrop.crop(image.getUri()).execute(new CropCallback() {
+                    @Override
+                    public void onSuccess(Bitmap cropped) {
+                        Bitmap bmp = cropped.copy(Bitmap.Config.ARGB_8888,true);
+                        hideCropFrame(true);
+                        selectFromTab(3);
+                        getImagePack().setMainImage(bmp);
+                        ivCrop.setImageBitmap(cropped);
+                        getImage().quickSave();
+                        inflateEffectSettings(SATURATION);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
             }
         });
 
@@ -151,6 +251,32 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Can't load first picture", Toast.LENGTH_LONG).show();
             // Rare situation, then go back to FirstActivity :
             startActivity(new Intent(this, FirstActivity.class));
+        }
+    }
+
+    private void hideCropFrame(boolean hide) {
+        if (hide) {
+            ivCrop.setFrameStrokeWeightInDp(0);
+            ivCrop.setGuideShowMode(CropImageView.ShowMode.NOT_SHOW);
+            ivCrop.setTouchPaddingInDp(0);
+            ivCrop.setHandleShowMode(CropImageView.ShowMode.NOT_SHOW);
+        } else {
+            ivCrop.setFrameStrokeWeightInDp(1);
+            ivCrop.setGuideShowMode(CropImageView.ShowMode.SHOW_ALWAYS);
+            ivCrop.setTouchPaddingInDp(8);
+            ivCrop.setHandleShowMode(CropImageView.ShowMode.SHOW_ALWAYS);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!OpenCVLoader.initDebug()) {
+            Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
+        } else {
+            Log.d(TAG, "OpenCV library found inside package. Using it!");
+            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
     }
 
@@ -429,42 +555,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void applyEffects(Image image) {
-        ImageEffect currentEffect = new ImageEffect(BRIGHTNESS.getName(), new String[]{String.valueOf(brightnessValue)}, (Bitmap target) ->
-                Retouching.setBrightness(target, brightnessValue, this));
-        image.applyEffect(currentEffect);
+//        ImageEffect currentEffect = new ImageEffect(BRIGHTNESS.getName(), new String[]{String.valueOf(brightnessValue)}, (Bitmap target) ->
+//                Retouching.setBrightness(target, brightnessValue, this));
+//        image.applyEffect(currentEffect);
+//
+//        currentEffect = new ImageEffect(SATURATION.getName(), new String[]{String.valueOf(saturationValue)}, (Bitmap target) ->
+//                Retouching.setSaturation(target, saturationValue, this));
+//        image.applyEffect(currentEffect);
+//        List<Filter> filters = FilterPack.getFilterPack(this);
+        Bitmap bitmap = Retouching.setSaturationBmp(image.getBitmap(), saturationValue, this);
+        image.setBitmap(bitmap);
+        Bitmap bmp = Retouching.setSaturationBmp(bitmap, saturationValue, this);
+        image.setBitmap(bmp);
 
-        currentEffect = new ImageEffect(SATURATION.getName(), new String[]{String.valueOf(saturationValue)}, (Bitmap target) ->
-                Retouching.setSaturation(target, saturationValue, this));
-        image.applyEffect(currentEffect);
-        List<Filter> filters = FilterPack.getFilterPack(this);
-
+        LoadImageUriTask ll = new LoadImageUriTask(this, null, false);
         switch (comicType) {
             case STRUCK:
-                filters.get(0).processFilter(image.getBitmap());
+                image.setBitmap(ll.cartoonImage7(image.getBitmap()));
                 image.quickSave();
                 break;
             case CLARENDON:
-                filters.get(1).processFilter(image.getBitmap());
+                image.setBitmap(ll.cartoonImage6(image.getBitmap()));
                 image.quickSave();
                 break;
             case OLDMAN:
-                filters.get(2).processFilter(image.getBitmap());
+                image.setBitmap(ll.cartoonImage5(image.getBitmap()));
                 image.quickSave();
                 break;
             case MARS:
-                filters.get(3).processFilter(image.getBitmap());
+                image.setBitmap(ll.cartoonImage4(image.getBitmap()));
                 image.quickSave();
                 break;
             case RISE:
-                filters.get(4).processFilter(image.getBitmap());
+                image.setBitmap(ll.cartoonImage3(image.getBitmap()));
                 image.quickSave();
                 break;
             case APRIL:
-                filters.get(5).processFilter(image.getBitmap());
+                image.setBitmap(ll.cartoonImage2(image.getBitmap()));
                 image.quickSave();
                 break;
             case AMAZON:
-                filters.get(6).processFilter(image.getBitmap());
+                image.setBitmap(ll.cartoonImage1(image.getBitmap()));
                 image.quickSave();
                 break;
             default:

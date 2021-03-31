@@ -79,7 +79,7 @@
                     android:textSize="16sp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="Struck"
+                    android:text="Comic 1"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -110,7 +110,7 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:id="@+id/clarendonText"
-                    android:text="Clarendon"
+                    android:text="Comic 2"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -141,7 +141,7 @@
                     android:textSize="16sp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="OldMan"
+                    android:text="Comic 3"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -172,7 +172,7 @@
                     android:textSize="16sp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="Mars"
+                    android:text="Comic 4"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -202,7 +202,7 @@
                     android:textSize="16sp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="Rise"
+                    android:text="Comic 5"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -233,7 +233,7 @@
                     android:textSize="16sp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="April"
+                    android:text="Comic 6"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -264,7 +264,7 @@
                     android:textSize="16sp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:text="Amazon"
+                    android:text="Comic 7"
                     android:textAlignment="center" />
             </LinearLayout>
 

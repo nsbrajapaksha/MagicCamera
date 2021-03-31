@@ -26,7 +26,6 @@
 
         <ImageView
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginStart="32dp"
             android:layout_width="24dp"
@@ -35,16 +34,15 @@
             android:background="@drawable/s_low" />
 
         <SeekBar
+            android:minHeight="7dp"
+            android:maxHeight="7dp"
             android:id="@+id/saturationSeekBar"
+            android:thumb="@drawable/seekbar_thumb"
+            android:progressDrawable="@drawable/layer_seekbar"
             android:layout_width="0dp"
             android:max="255"
             android:progress="127"
             android:layout_weight="6"
-            android:scaleY="2"
-            android:scaleX="2"
-            android:paddingEnd="80dp"
-            android:paddingStart="80dp"
-            android:theme="@style/SeekBarColor"
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent"/>
 
@@ -52,7 +50,6 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="32dp"
             android:layout_gravity="center_vertical"

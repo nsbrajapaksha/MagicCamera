@@ -1,5 +1,7 @@
 package fr.comic.magiccamera.image;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.Queue;
 
@@ -138,5 +140,9 @@ public class ImagePack {
      */
     public Image getMainImage() {
         return mainImage;
+    }
+
+    public void setMainImage(Bitmap mainImage) {
+        this.mainImage = new Image(mainImage);
     }
 }

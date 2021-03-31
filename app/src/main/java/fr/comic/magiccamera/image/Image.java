@@ -207,7 +207,7 @@ public class Image {
      * Then save the current Image. See also {@link #discard()}.
      */
     public void quickSave() {
-        if (imgQuickSave == null) {
+        if (imgQuickSave == null || (imgQuickSave != null && imgQuickSave.length != width * height)) {
             imgQuickSave = new int[width * height];
             tempEffectsHistory = new LinkedList<>();
         }
@@ -224,7 +224,7 @@ public class Image {
      * Will also remove from the effects history all effects applied since the quicksave.
      */
     public void discard() {
-        if (imgQuickSave != null) {
+        if (imgQuickSave != null && imgQuickSave.length == width*height) {
             bitmap.setPixels(imgQuickSave, 0, width, 0, 0, width, height);
             tempEffectsHistory.clear(); // clear last unconfirmed effects.
         }

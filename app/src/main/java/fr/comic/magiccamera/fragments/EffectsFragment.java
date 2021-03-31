@@ -114,51 +114,51 @@ public class EffectsFragment extends Fragment {
 
         effectMars.setOnClickListener(v -> {
             if (marsText.getCurrentTextColor() != android.graphics.Color.WHITE) {
-                main.inflateEffectSettings(MARS);
                 selectFilter(MARS);
+                main.inflateEffectSettings(MARS);
             }
         });
         effectRise.setOnClickListener(v -> {
             if (riseText.getCurrentTextColor() != android.graphics.Color.WHITE) {
-                main.inflateEffectSettings(RISE);
                 selectFilter(RISE);
+                main.inflateEffectSettings(RISE);
             }
         });
         effectNormal.setOnClickListener(v -> {
             if (normalText.getCurrentTextColor() != android.graphics.Color.WHITE) {
-                main.inflateEffectSettings(NORMAL);
                 selectFilter(NORMAL);
+                main.inflateEffectSettings(NORMAL);
             }
 
         });
         effectClarendon.setOnClickListener(v -> {
             if (clarendonText.getCurrentTextColor() != android.graphics.Color.WHITE) {
-                main.inflateEffectSettings(CLARENDON);
                 selectFilter(CLARENDON);
+                main.inflateEffectSettings(CLARENDON);
             }
         });
         effectStruck.setOnClickListener(v -> {
             if (struckText.getCurrentTextColor() != android.graphics.Color.WHITE) {
-                main.inflateEffectSettings(STRUCK);
                 selectFilter(STRUCK);
+                main.inflateEffectSettings(STRUCK);
             }
         });
         effectOldMan.setOnClickListener(v -> {
             if (oldManText.getCurrentTextColor() != android.graphics.Color.WHITE) {
-                main.inflateEffectSettings(OLDMAN);
                 selectFilter(OLDMAN);
+                main.inflateEffectSettings(OLDMAN);
             }
         });
         effectApril.setOnClickListener(v -> {
             if (aprilText.getCurrentTextColor() != android.graphics.Color.WHITE) {
-                main.inflateEffectSettings(APRIL);
                 selectFilter(APRIL);
+                main.inflateEffectSettings(APRIL);
             }
         });
         effectAmazon.setOnClickListener(v -> {
             if (amazonText.getCurrentTextColor() != android.graphics.Color.WHITE) {
-                main.inflateEffectSettings(AMAZON);
                 selectFilter(AMAZON);
+                main.inflateEffectSettings(AMAZON);
             }
         });
     }
